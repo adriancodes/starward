@@ -71,7 +71,7 @@ Drag to orbit the camera; scroll or pinch to zoom. The controls support pause, f
 
 ## Soundtrack
 
-Background music is **off by default on every visit**. Click **Music off** in the footer to enable it; click **Music on** to pause it. Enabling it again resumes the track. It loops while enabled, at 35% volume, and continues independently of simulation pause, speed, and view changes. The app does not save an autoplay preference.
+Background music is **off by default on every visit**. Click **Music off** in the top bar to enable it; click **Music on** to pause it. Enabling it again resumes the track. It loops while enabled, at 35% volume, and continues independently of simulation pause, speed, and view changes. The app does not save an autoplay preference.
 
 The bundled track is [Space Galaxy Universe Music](https://pixabay.com/music/ambient-space-galaxy-universe-music-473849/) by **ViacheslavStarostin**, used as part of Starward under the [Pixabay Content License](https://pixabay.com/service/license-summary/). It loads on demand after the first click, with no external player or streaming account required. Music and the simulation are served from this repository's local assets.
 
