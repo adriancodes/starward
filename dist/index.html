@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#080c10">
+  <title>Orbit — A Solar System Observatory</title>
+  <meta name="description" content="Explore our solar system in an immersive 3D observatory. Follow Earth and the Moon, travel to every planet, and watch the solar system move through the galaxy.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23080c10'/%3E%3Cellipse cx='16' cy='16' rx='13' ry='6' transform='rotate(-35 16 16)' fill='none' stroke='%23b5e7ce' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23b5e7ce'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./style.css">
+  <script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+</head>
+<body>
+  <main id="observatory">
+    <div id="space" aria-label="Interactive 3D solar system. Drag to orbit and scroll to zoom."></div>
+    <div class="vignette" aria-hidden="true"></div>
+    <header>
+      <a class="brand" href="./" aria-label="Orbit home"><svg viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="20" cy="20" rx="19" ry="8" transform="rotate(-36 20 20)"/><circle cx="20" cy="20" r="8"/></svg><span>ORBIT<small>A SOLAR SYSTEM OBSERVATORY</small></span></a>
+      <nav class="views" aria-label="View mode"><button data-view="earth" class="active" aria-pressed="true">Earth & Moon</button><button data-view="solar" aria-pressed="false">Solar system</button><button data-view="galaxy" aria-pressed="false">Galactic voyage <span>↗</span></button></nav>
+      <div class="header-right"><span class="live"><i></i> SIMULATION</span><button class="icon-button" id="help" aria-label="About this simulation" title="About this simulation">?</button></div>
+    </header>
+    <div id="cosmic-nav" class="cosmic-nav hidden">
+      <nav aria-label="Galactic scale"><button data-scale="voyage">Solar trails</button><button data-scale="galaxy">Milky Way</button><button data-scale="cosmic">Through space</button></nav>
+      <label class="cosmic-camera">CAMERA <select id="cosmic-frame" aria-label="Galactic camera"><option value="galaxy">Follow Milky Way</option><option value="sun">Follow Solar System</option><option value="fixed">Fixed in space</option></select></label>
+    </div>
+    <div id="galactic-labels" class="galactic-labels hidden" aria-hidden="true"><div id="cosmic-sun-label" class="planet-label selected">SOLAR SYSTEM <small>YOU ARE HERE</small></div><div id="cosmic-center-label" class="planet-label">GALACTIC CENTER</div><div id="cosmic-origin-label" class="planet-label">STARTING POSITION</div></div>
+    <div class="galaxy-scale-note">1 SCENE UNIT = 1,000 LIGHT-YEARS <span>·</span> MARKERS ENLARGED</div>
+    <section class="body-info" aria-labelledby="body-name">
+      <div class="eyebrow" id="eyebrow">03 / THE TERRESTRIAL PLANETS</div>
+      <h1 id="body-name">Earth<span>.</span></h1>
+      <p id="body-description">Our pale blue dot. An ocean world wrapped in a thin atmosphere, and the only home to life we know.</p>
+      <div class="body-tag" id="body-tag"><span></span> TERRESTRIAL PLANET</div>
+      <dl class="facts"><div><dt>MEAN RADIUS</dt><dd id="radius">6,371 <small>km</small></dd></div><div><dt>ORBITAL PERIOD</dt><dd id="period">365.25 <small>days</small></dd></div><div><dt>DISTANCE FROM SUN</dt><dd id="distance">1.00 <small>AU</small></dd></div><div><dt>ROTATION PERIOD</dt><dd id="rotation">23.93 <small>hours</small></dd></div></dl>
+      <button class="text-button" id="details">Explore the details <span>↗</span></button>
+    </section>
+    <div id="labels" aria-hidden="true"></div>
+    <div class="scene-caption"><span class="crosshair">+</span><span id="camera-label">EARTH–MOON SYSTEM</span><span class="caption-line"></span><span id="scale-note">SIZES & DISTANCES ENHANCED</span></div>
+    <aside class="scene-tools" aria-label="Scene controls">
+      <button class="icon-button active" id="orbits-toggle" aria-label="Toggle orbit paths" aria-pressed="true" title="Orbit paths (O)"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="10" ry="5" transform="rotate(-35 12 12)"/><circle cx="12" cy="12" r="2"/></svg></button>
+      <button class="icon-button active" id="labels-toggle" aria-label="Toggle labels" aria-pressed="true" title="Labels (L)"><svg viewBox="0 0 24 24"><path d="M5 7V4h14v3M12 4v16M8 20h8"/></svg></button>
+      <span class="tool-divider"></span>
+      <button class="icon-button" id="zoom-in" aria-label="Zoom in" title="Zoom in"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></svg></button>
+      <button class="icon-button" id="zoom-out" aria-label="Zoom out" title="Zoom out"><svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg></button>
+      <button class="icon-button" id="reset-camera" aria-label="Reset camera" title="Reset camera (R)"><svg viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 1 7M4 4v6h6"/></svg></button>
+      <span class="tool-divider"></span>
+      <button class="icon-button" id="settings" aria-label="Display settings" title="Display settings"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="3"/><circle cx="16" cy="17" r="3"/></svg></button>
+      <button class="icon-button" id="fullscreen" aria-label="Enter fullscreen" title="Fullscreen"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg></button>
+    </aside>
+    <div class="view-hint"><svg viewBox="0 0 18 22"><rect x="3" y="1" width="12" height="19" rx="6"/><path d="M9 1v6"/></svg><span>Drag to orbit <b>·</b> Scroll to explore</span></div>
+    <footer>
+      <div class="transport">
+        <div class="cosmic-time-block"><span class="eyebrow">GALACTIC TIME <span>FROM START</span></span><output id="cosmic-time">+0.00 million years</output></div><div class="time-block"><span class="eyebrow">SIMULATION TIME <span>UTC</span></span><label class="date-label"><input id="date" type="date" min="1800-01-01" max="2050-12-31" aria-label="Simulation date"><span id="clock-time">12:00:00</span></label></div>
+        <div class="playback"><button class="icon-button" id="reverse" aria-label="Reverse time" aria-pressed="false" title="Reverse time"><svg viewBox="0 0 24 24"><path d="m12 7-7 5 7 5V7Zm7 0-7 5 7 5V7Z"/></svg></button><button id="play" class="play-button" aria-label="Pause simulation" title="Pause / play (Space)"><svg viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg></button><button class="icon-button" id="forward" aria-label="Forward time" title="Forward time"><svg viewBox="0 0 24 24"><path d="m5 7 7 5-7 5V7Zm7 0 7 5-7 5V7Z"/></svg></button></div>
+        <div class="speed-block"><label for="speed">TIME SPEED</label><select id="speed"><option value="1">Real time</option><option value="3600" selected>1 hour / second</option><option value="86400">1 day / second</option><option value="604800">1 week / second</option><option value="2592000">30 days / second</option></select></div>
+        <button class="now-button" id="now">Back to now <span>↺</span></button>
+      </div>
+      <nav class="planet-dock" aria-label="Select a celestial body" id="planet-dock"></nav>
+      <div class="footer-meta"><span>THE UNIVERSE, IN PERSPECTIVE.</span><button id="model-info">Keplerian orbital model <span>↗</span></button><button id="soundtrack-toggle" aria-label="Open soundtrack player" aria-expanded="false" aria-controls="soundtrack-panel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l11-2v13M9 9l11-2"/><ellipse cx="6" cy="18" rx="3" ry="2"/><ellipse cx="17" cy="16" rx="3" ry="2"/></svg>Soundtrack</button><span><kbd>SPACE</kbd> TO PAUSE</span></div>
+    </footer>
+    <section id="soundtrack-panel" class="soundtrack-panel" aria-labelledby="soundtrack-title" hidden>
+      <div class="soundtrack-heading"><h2 id="soundtrack-title">Soundtrack</h2><button id="soundtrack-stop" class="icon-button" aria-label="Close player and stop music" title="Close player and stop music">×</button></div>
+      <div id="soundtrack-player"></div>
+      <p>Press play, then keep exploring. Spotify may offer previews in this browser.</p>
+      <a href="https://open.spotify.com/album/3B61kSKTxlY36cYgzvf3cP" target="_blank" rel="noopener noreferrer">Open Interstellar in Spotify ↗</a>
+    </section>
+    <div id="loading" role="status"><div class="loading-orbit"></div><span>Preparing your observatory</span><small>Loading planetary surfaces…</small></div>
+    <div id="toast" role="status" class="hidden"></div>
+    <dialog id="info-dialog"><button class="dialog-close icon-button" aria-label="Close dialog">×</button><div id="dialog-content"></div></dialog>
+    <dialog id="settings-dialog"><button class="dialog-close icon-button" aria-label="Close settings">×</button><span class="eyebrow">YOUR OBSERVATORY</span><h2>Display settings</h2><label class="setting-row"><span>Physical scale<small>Actual body sizes and orbital distances. Planets become tiny in the overview.</small></span><input type="checkbox" id="true-scale"></label><p class="galaxy-setting-note">Planetary scale and atmospheres apply to the close-up views. Galaxy markers are enlarged for visibility.</p><label class="setting-row"><span>Star field<small>A visual backdrop, not a star catalog.</small></span><input type="checkbox" id="stars-toggle" checked></label><label class="setting-row"><span>Atmospheres<small>Cloud layers and atmospheric glow.</small></span><input type="checkbox" id="atmosphere-toggle" checked></label><p class="settings-note">Drag to orbit · Scroll or pinch to zoom<br>Space to pause · R to reset · O for orbits · L for labels</p></dialog>
+  </main>
+  <script type="module" src="./app.js"></script>
+  <script type="module" src="./soundtrack.js"></script>
+</body>
+</html>
