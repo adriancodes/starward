@@ -8,6 +8,12 @@ An interactive 3D observatory for exploring the Sun, all eight planets, Earth's 
 
 **No build step, package installation, API keys, or backend are required.** The `dist/` directory contains the complete web app and its editable source. It is intentionally committed to this repository.
 
+## Why I built this
+
+I wanted to show my son, Eric, how the planets orbit the Sun, how our Solar System moves through the Milky Way, and how the stars fit into that bigger picture. Mostly, I wanted him to see just how cool it all is.
+
+We vibe-coded Starward with Astra in less than 30 minutes. That still feels incredible. What started as a way to share my curiosity with Eric became a great showcase of what these models can help us build—from an idea to something we could explore together.
+
 ## Run locally
 
 You need Git, Python 3, and a modern browser with WebGL 2 and hardware acceleration enabled. Python only serves the files during local development; it is not part of the deployed app.
