@@ -2,6 +2,10 @@
 
 An interactive 3D observatory for exploring the Sun, all eight planets, Earth's Moon, and our motion through the Milky Way. Built with JavaScript and Three.js, with bundled planetary textures and fonts.
 
+![Animated Starward preview showing Earth rotating, planets orbiting the Sun, and the Solar System moving through the Milky Way.](docs/starward-preview.gif)
+
+*A 13-second tour captured from the app, with accelerated simulation time.*
+
 **No build step, package installation, API keys, or backend are required.** The `dist/` directory contains the complete web app and its editable source. It is intentionally committed to this repository.
 
 ## Run locally
