@@ -1,4 +1,4 @@
-# Orbit — A Solar System Observatory
+# Starward — Our universe in motion
 
 An interactive 3D observatory for exploring the Sun, all eight planets, Earth's Moon, and our motion through the Milky Way. Built with JavaScript and Three.js, with bundled planetary textures and fonts.
 
@@ -9,8 +9,8 @@ An interactive 3D observatory for exploring the Sun, all eight planets, Earth's 
 You need Git, Python 3, and a modern browser with WebGL 2 and hardware acceleration enabled. Python only serves the files during local development; it is not part of the deployed app.
 
 ```sh
-git clone https://github.com/adriancodes/orbit-solar-observatory.git
-cd orbit-solar-observatory
+git clone https://github.com/adriancodes/starward.git
+cd starward
 python3 -m http.server 4173 --bind 127.0.0.1 --directory dist
 ```
 
@@ -61,9 +61,11 @@ Drag to orbit the camera; scroll or pinch to zoom. The controls support pause, f
 
 ## Soundtrack
 
-The **Soundtrack** button opens Spotify's official *Interstellar* album player. It loads after a click; press play inside the player to start listening. Closing it stops the music. Spotify may offer only previews depending on the browser and listening context; the panel also links to the album on Spotify.
+Background music is **off by default on every visit**. Click **Music off** in the footer to enable it; click **Music on** to pause it. Enabling it again resumes the track. It loops while enabled, at 35% volume, and continues independently of simulation pause, speed, and view changes. The app does not save an autoplay preference.
 
-The actual recordings are **not bundled** with this repository. A separate continuous background-audio mode is not implemented yet; adding it is pending a soundtrack file cleared for use on the website. The simulation itself does not require Spotify or an internet connection once its local files are served.
+The bundled track is [Space Galaxy Universe Music](https://pixabay.com/music/ambient-space-galaxy-universe-music-473849/) by **ViacheslavStarostin**, used as part of Starward under the [Pixabay Content License](https://pixabay.com/service/license-summary/). It loads on demand after the first click, with no external player or streaming account required. Music and the simulation are served from this repository's local assets.
+
+To replace the music, use a track cleared for your intended use, update the audio source in `dist/index.html`, and update the credit in `dist/app.js`, this README, and `dist/assets/ATTRIBUTION.md`. The default volume is set in `dist/soundtrack.js`.
 
 ## Edit the app
 
@@ -77,8 +79,8 @@ dist/
   orbits.mjs             Planetary data and Keplerian orbital calculations
   galaxy.js              Milky Way visualization
   galactic-motion.mjs    Solar galactic orbit and bulk-motion calculations
-  soundtrack.js          Optional Spotify player lifecycle
-  assets/                Planet maps, fonts, and attribution files
+  soundtrack.js          Opt-in looping background music
+  assets/                Planet maps, fonts, background music, and credits
   vendor/                Three.js, OrbitControls, and their license
 check-orbits.mjs          Orbital and galactic-motion checks
 check-soundtrack.mjs      Soundtrack control checks
@@ -93,7 +95,7 @@ node check-orbits.mjs
 node check-soundtrack.mjs
 ```
 
-The checks cover Kepler residuals, orbital geometry, Earth–Moon barycenter conservation, lunar distances, galactic orbital closure, nested motion, drift units, reversal, invalid galactic input, and the soundtrack player's opt-in/stop/reopen behavior. Soundtrack checks do not contact Spotify or verify authenticated audio playback.
+The checks cover Kepler residuals, orbital geometry, Earth–Moon barycenter conservation, lunar distances, galactic orbital closure, nested motion, drift units, reversal, invalid galactic input, and background music's default-off state, on/off behavior, failed playback, and rapid-toggle races. Audio checks exercise the controls without producing sound.
 
 ## Scientific model and limits
 
@@ -112,7 +114,7 @@ An optional browser WebMCP integration is feature-detected; ordinary use does no
 - **The 3D view cannot start:** enable hardware acceleration and use a WebGL 2-capable browser/device.
 - **Modules fail to load:** use HTTP/HTTPS rather than opening the HTML file directly, and check `.js`/`.mjs` MIME types on your host.
 - **Planets appear tiny:** Physical scale is enabled. Select a planet for a close-up or switch back to enhanced scale.
-- **Spotify only plays a short preview:** use the panel's Spotify link. The streaming service controls playback availability.
+- **Music is silent:** it starts off by default. Click **Music off** to turn it on, check the device/browser volume, and verify that `assets/space-galaxy-universe.mp3` is included in your deployment.
 
 ## Credits
 
@@ -120,6 +122,6 @@ An optional browser WebMCP integration is feature-detected; ordinary use does no
 - Three.js and OrbitControls: MIT; [bundled license](dist/vendor/THREE-LICENSE.txt).
 - DM Sans: [SIL Open Font License](dist/assets/DM-Sans-LICENSE.txt).
 - Space Grotesk: [SIL Open Font License](dist/assets/Space-Grotesk-LICENSE.txt).
-- *Interstellar* soundtrack: Hans Zimmer, streamed through Spotify. Music rights are not included with the app.
+- Background music: [Space Galaxy Universe Music — ViacheslavStarostin / Pixabay](https://pixabay.com/music/ambient-space-galaxy-universe-music-473849/), [Pixabay Content License](https://pixabay.com/service/license-summary/). The track is integrated into the app; its license does not permit standalone redistribution. See [asset attribution](dist/assets/ATTRIBUTION.md).
 
 Third-party assets retain their respective licenses.
